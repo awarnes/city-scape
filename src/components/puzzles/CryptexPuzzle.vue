@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {mdiCheckCircle, mdiLockRemoveOutline} from '@mdi/js'
-import {ref, computed} from 'vue';
-const {answer, maxGuesses} = defineProps({
+import { mdiCheckCircle, mdiLockRemoveOutline } from '@mdi/js';
+import { ref, computed } from 'vue';
+const { answer, maxGuesses } = defineProps({
   answer: {
     type: String,
     required: true,
@@ -9,7 +9,7 @@ const {answer, maxGuesses} = defineProps({
   maxGuesses: {
     type: Number,
     default: 3,
-  }
+  },
 });
 
 const guess = ref('');
@@ -18,7 +18,7 @@ const guessNumber = ref(0);
 const loading = ref(false);
 const finished = ref(false);
 
-const correct = computed(() => guess.value === answer)
+const correct = computed(() => guess.value === answer);
 
 const handleCheck = () => {
   loading.value = true;
@@ -32,7 +32,7 @@ const handleCheck = () => {
     guess.value = '';
     loading.value = false;
   }, 1500);
-}
+};
 </script>
 
 <template>
@@ -41,21 +41,28 @@ const handleCheck = () => {
       <VOtpInput
         v-if="!finished"
         v-model="guess"
-        type="input"
+        type="text"
         :loading="loading"
         :disabled="finished"
         :length="answer.length"
       />
-      <VIcon v-else size="75" :icon="correct ? mdiCheckCircle : mdiLockRemoveOutline" :color="correct ? 'success' : 'error'"/>
+      <VIcon
+        v-else
+        size="75"
+        :icon="correct ? mdiCheckCircle : mdiLockRemoveOutline"
+        :color="correct ? 'success' : 'error'"
+      />
     </VCardText>
     <VCardActions>
-      <VBtn :disabled="guess.length < answer.length || loading || finished" @click="handleCheck">Submit</VBtn>
+      <VBtn :disabled="guess.length < answer.length || loading || finished" @click="handleCheck"
+        >Submit</VBtn
+      >
     </VCardActions>
   </VCard>
 </template>
 
 <style>
-  .cryptext-puzzle-text {
-    display: absolute !important;
-  }
+.cryptext-puzzle-text {
+  display: absolute !important;
+}
 </style>

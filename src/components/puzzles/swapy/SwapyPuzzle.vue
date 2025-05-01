@@ -1,0 +1,115 @@
+<script setup lang="ts">
+import { createSwapy } from 'swapy';
+import { onMounted, ref } from 'vue';
+
+import SwapItem from './SwapItem.vue';
+import SwapSlot from './SwapSlot.vue';
+
+const container = ref();
+
+onMounted(() => {
+  if (container.value) {
+    const swapy = createSwapy(container.value);
+    swapy.onSwap(({ data }) => {
+      console.log('Swapped: ', JSON.stringify(data));
+    });
+  }
+});
+</script>
+
+<template>
+  <div class="container" ref="container">
+    <SwapSlot slot-id="a"><SwapItem item-id="1"></SwapItem></SwapSlot>
+    <SwapSlot slot-id="b"></SwapSlot>
+    <SwapSlot slot-id="c"></SwapSlot>
+  </div>
+</template>
+
+<style>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+}
+
+.second-row {
+  display: flex;
+  gap: 5px;
+}
+
+.slot {
+  background: #111;
+  flex: 1;
+}
+
+.slot.a {
+  flex-basis: 150px;
+  height: 150px;
+}
+
+.slot.b {
+  flex: 2;
+}
+
+.second-row {
+  height: 100px;
+}
+
+.slot.d {
+  flex-basis: 120px;
+  height: 120px;
+}
+
+.item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+}
+
+.item.a {
+  background: #b95050;
+}
+
+.item.b {
+  background: #50b97f;
+}
+
+.item.c {
+  background: #508db9;
+}
+
+.item.d {
+  background: #b95096;
+}
+
+[data-swapy-highlighted] {
+  background: #444;
+}
+
+.handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.enable-input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px;
+}
+</style>
